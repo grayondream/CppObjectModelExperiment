@@ -4,18 +4,23 @@
 #include "utils.h"
 #include <cstdint>
 
+
 class SimpleClass{
     friend std::ostream& operator<<(std::ostream &os, const SimpleClass &cls);
 public:
-    SimpleClass(){}
-    ~SimpleClass(){}
+    SimpleClass(){
+        void *p = fetchRunningFuncAddress();
+        OS_ADDR(SimpleClass::SimpleClass, p);
+    }
+    ~SimpleClass(){
+        void *p = fetchRunningFuncAddress();
+        OS_ADDR(SimpleClass::~SimpleClass, p);
+    }
 
     static void staticFunc(){}
     void nonStaticFunc() const{
-        std::cout<<"a"<<std::endl;
-        uint64_t val{};
-        asm("\t movq %%rbp,%0" : "=r"(val));
-        printf("%p\n", val);
+        void *p = fetchRunningFuncAddress();
+        OS_ADDR(SimpleClass::nonStaticFunc, p);
     }
 
     int _nonStaticIntMember{44};
