@@ -1,7 +1,16 @@
 #include <iostream>
 #include <tuple>
 #include "utils.h"
-#include "ClassOs.h"
+#include <iostream>
+#include "utils.h"
+#include "Simple.h"
+#include "SimpleSingleInherit.h"
+#include "SimpleMultiInherit.h"
+#include "SimpleDiamandInherit.h"
+#include "VirtualClass.h"
+#include "VirtualSingleInherit.h"
+#include "VirtualMultiInherit.h"
+#include "VirtualMultiDiamand.h"
 
 int SimpleClass::staticIntMember = 33;
 
@@ -25,6 +34,9 @@ int main(int argc, char **argv){
                 SimpleSingleInherit2,
                 SimpleMultiInherit,
                 SimpleDiamandInherit,
-                VirtualClass>();
+                VirtualClass,
+                VirtualSingleInherit,
+                VirtualMultiInherit,
+                VirtualMultiDiamand>();
     return 0;
 }

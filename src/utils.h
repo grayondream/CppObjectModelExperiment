@@ -2,6 +2,7 @@
 #include <type_traits>
 #include <tuple>
 #include <iomanip>
+#include <iostream>
 
 class TupleTraverser {
     template<typename T, typename Func, size_t... i>
@@ -32,6 +33,15 @@ void* fetchRunningFuncAddress(){
     uint64_t rbp{};
     asm("\t movq 8(%%rbp),%0" : "=r"(rbp));
     return (void*)(rbp - 0x11 - t);
+}
+
+template<class T>
+void print(){
+    std::cout<<"******************CLASS SEPARETOR*************************"<<std::endl;
+    T* cls = new T;
+    cls->print();
+    delete cls;
+    std::cout<<"******************CLASS SEPARETOR*************************"<<std::endl;
 }
 
 void paresVtp(const void **p, const int cnt);
