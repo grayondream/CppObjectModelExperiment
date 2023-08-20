@@ -24,14 +24,26 @@ void* func2addr(Func &&f){
     return v.addr;
 }
 
-void* fetchRunningFuncAddress();
+class EmptyClass{};
 
-#define OS_OUT std::cout<<std::left<<std::setw(50)
+template<int t = 0>
+void* fetchRunningFuncAddress(){
+    //!TODO:此处的代码不可移植
+    uint64_t rbp{};
+    asm("\t movq 8(%%rbp),%0" : "=r"(rbp));
+    return (void*)(rbp - 0x11 - t);
+}
+
+void paresVtp(const void **p, const int cnt);
+
+#define TO_STR(x) #x
+
+#define OS_OUT std::cout<<std::left<<std::setw(60)
 #define OS_END std::endl
 
 #define OS_CLS_SIZE(cls) OS_OUT<<"size of class(bytes):"<<sizeof(cls)<<OS_END;
 #define OS_CLS_ALIGIN_SIZE(cls) OS_OUT<<"align of class(bytes):"<<std::alignment_of_v<cls><<OS_END;
-#define OS_CLS_ADDR(cls) OS_OUT<<"address of class:"<<std::addressof(cls)<<OS_END;
+#define OS_CLS_ADDR(cls, name) OS_OUT<<"address of class " #name":"<<std::addressof(cls)<<OS_END;
 #define OS_CLS_MEMBER_VAL_ADDR(cls, val) OS_OUT<<"member address "#val":"<<std::addressof(cls.val)<<OS_END;
 #define OS_CLS_STATIC_MEMBER_VAL_ADDR(cls, val) OS_OUT<<"static function address "#val":"<<std::addressof(cls::val)<<OS_END;
 #define OS_CLS_MEMBER_FUNC_ADDR(cls, func) OS_OUT<<"function addres "#func":"<<func2addr(&cls::func)<<OS_END;
